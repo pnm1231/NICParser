@@ -1,12 +1,12 @@
 # Sri Lankan National Identity Card Number Parser
 A PHP library to parse, validate, and generate valid Sri Lankan national identity card numbers.
 
-[![Latest Stable Version](https://poser.pugx.org/slwdc/nic-parser/v/stable)](https://packagist.org/packages/slwdc/nic-parser) [![License](https://poser.pugx.org/slwdc/nic-parser/license)](https://packagist.org/packages/slwdc/nic-parser) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/slwdc/NICParser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/slwdc/NICParser/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/slwdc/NICParser/badges/build.png?b=master)](https://scrutinizer-ci.com/g/slwdc/NICParser/build-status/master)  [![codecov](https://codecov.io/gh/slwdc/NICParser/branch/master/graph/badge.svg)](https://codecov.io/gh/slwdc/NICParser) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/2e61c5e1-095b-43c5-9fa2-c77527480774/mini.png)](https://insight.sensiolabs.com/projects/2e61c5e1-095b-43c5-9fa2-c77527480774) ![CI](https://github.com/slwdc/NICParser/workflows/CI/badge.svg) [![Too many badges](https://img.shields.io/badge/style-too_many-brightgreen.svg?style=toomany&label=badges)](https://github.com/slwdc/NICParser)
+[![Latest Stable Version](https://poser.pugx.org/pnm1231/nic-parser/v/stable)](https://packagist.org/packages/pnm1231/nic-parser) [![License](https://poser.pugx.org/pnm1231/nic-parser/license)](https://packagist.org/packages/pnm1231/nic-parser) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/pnm1231/NICParser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/pnm1231/NICParser/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/pnm1231/NICParser/badges/build.png?b=master)](https://scrutinizer-ci.com/g/pnm1231/NICParser/build-status/master)  [![codecov](https://codecov.io/gh/pnm1231/NICParser/branch/master/graph/badge.svg)](https://codecov.io/gh/pnm1231/NICParser) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/2e61c5e1-095b-43c5-9fa2-c77527480774/mini.png)](https://insight.sensiolabs.com/projects/2e61c5e1-095b-43c5-9fa2-c77527480774) ![CI](https://github.com/pnm1231/NICParser/workflows/CI/badge.svg) [![Too many badges](https://img.shields.io/badge/style-too_many-brightgreen.svg?style=toomany&label=badges)](https://github.com/pnm1231/NICParser)
 ### Installation
 
 You can install the library easily with composer. Requires PHP 7.4 or later.
 
-``` composer require slwdc/nic-parser```
+``` composer require pnm1231/nic-parser```
 
 Alternaely, you can download the library from github, and manually include the class or integrate into your own autoloader. See the included `composer.json` file for `PSR-4` namespace mappings.
 

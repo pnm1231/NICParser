@@ -2,72 +2,82 @@
 
 declare(strict_types=1);
 
-namespace SLWDC\NICParser;
-
+namespace pnm1231\NICParser;
 
 use DateTime;
-use SLWDC\NICParser\Exception\BadMethodCallException;
-use SLWDC\NICParser\Exception\InvalidArgumentException;
+use pnm1231\NICParser\Exception\BadMethodCallException;
+use pnm1231\NICParser\Exception\InvalidArgumentException;
 
-class Builder {
-
+class Builder
+{
     private DateTime $birthday;
     private string $gender;
-    private string $serial_number;
+    private string $serialNumber;
 
-    public function setParser(Parser $parser): void {
+    public function setParser(Parser $parser): void
+    {
         $this->birthday = $parser->getBirthday();
         $this->gender = $parser->getGender();
-        $this->serial_number = $parser->getSerialNumber();
+        $this->serialNumber = $parser->getSerialNumber();
     }
 
-    public function setBirthday(DateTime $date): self {
+    public function setBirthday(DateTime $date): self
+    {
         $this->birthday = clone $date;
 
         return $this;
     }
 
-    public function setGender(string $gender = 'M'): self {
+    public function setGender(string $gender = 'M'): self
+    {
         if ($gender === 'M' || $gender === 'F') {
             $this->gender = $gender;
 
             return $this;
         }
+
         throw new InvalidArgumentException('Unknown gender. Allowed values are: "M" and "F');
     }
 
-    public function setSerialNumber(string $serial_number): self {
-        $this->serial_number = $serial_number;
+    public function setSerialNumber(string $serialNumber): self
+    {
+        $this->serialNumber = $serialNumber;
 
         return $this;
     }
 
-    public function getNumber(): string {
+    public function getNumber(): string
+    {
         $this->checkBuilderFields();
 
         $year = $this->birthday->format('Y');
-        $start_date = (new DateTime())->setDate((int)$year, 1, 1)->setTime(0, 0);
-        $birth_date_count = (int)$this->birthday->diff($start_date)->format('%a');
 
-        ++$birth_date_count;
+        $startDate = (new DateTime())->setDate((int)$year, 1, 1)->setTime(0, 0);
+
+        $birthDateCount = (int) $this->birthday->diff($startDate)->format('%a');
+
+        ++$birthDateCount;
 
         if ($this->gender === 'F') {
-            $birth_date_count += 500;
+            $birthDateCount += 500;
         }
 
-        $serial = $this->serial_number;
+        $serial = $this->serialNumber;
 
-        return "{$year}{$birth_date_count}{$serial}";
+        return "{$year}{$birthDateCount}{$serial}";
     }
 
-    public function checkBuilderFields(): void {
+    public function checkBuilderFields(): void
+    {
         if (!isset($this->birthday)) {
             throw new BadMethodCallException('Attempting to build ID number without a valid birthday set.');
         }
+
         if (!isset($this->gender)) {
             throw new BadMethodCallException('Attempting to build ID number without a valid gender set.');
         }
-        if (!isset($this->serial_number)) {
+
+        if (!isset($this->serialNumber)) {
             throw new BadMethodCallException('Attempting to build ID number without a valid serial number set.');
         }
     }

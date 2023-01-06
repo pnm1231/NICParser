@@ -1,5 +1,5 @@
 {
-	"name": "slwdc/nic-parser",
+	"name": "pnm1231/nic-parser",
 	"description": "Sri Lankan national identity card number validator",
 	"type": "library",
 	"license": "MIT",
@@ -14,12 +14,16 @@
 	],
 	"authors": [
 		{
+			"name": "Prasad Nayanajith",
+			"email": "prasadnmanage@gmail.com"
+		},
+		{
 			"name": "Ayesh Karunaratne",
 			"email": "ayesh@ayesh.me"
 		}
 	],
 	"require": {
-		"php-64bit": "^7.4 || ^8.0"
+		"php-64bit": "^7.4|^8.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^9.2",
@@ -27,21 +31,21 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"SLWDC\\NICParser\\": "src/"
+			"pnm1231\\NICParser\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"SLWDC\\NICParser\\Tests\\": "tests/"
+			"pnm1231\\NICParser\\Tests\\": "tests/"
 		}
 	},
 	"scripts": {
 		"test": [
-			" phpunit"
+			"phpunit"
 		]
 	},
 	"support": {
-		"issues": "https://github.com/slwdc/NICParser/issues",
-		"source": "https://github.com/slwdc/NICParser"
+		"issues": "https://github.com/pnm1231/NICParser/issues",
+		"source": "https://github.com/pnm1231/NICParser"
 	}
 }

@@ -1,9 +1,5 @@
 <?php
 
+namespace pnm1231\NICParser\Exception;
 
-namespace SLWDC\NICParser\Exception;
-
-
-class InvalidArgumentException extends \InvalidArgumentException {
-
-}
+class InvalidArgumentException extends \InvalidArgumentException {}

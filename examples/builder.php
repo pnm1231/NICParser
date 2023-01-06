@@ -1,6 +1,6 @@
 <?php
 
-use SLWDC\NICParser\Builder;
+use pnm1231\NICParser\Builder;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

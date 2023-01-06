@@ -2,112 +2,131 @@
 
 declare(strict_types=1);
 
-namespace SLWDC\NICParser;
+namespace pnm1231\NICParser;
 
 use DateInterval;
 use DateTime;
-use SLWDC\NICParser\Exception\InvalidArgumentException;
+use pnm1231\NICParser\Exception\InvalidArgumentException;
 
-use function strlen;
-
-class Parser {
+class Parser
+{
     public const ID_FORMAT_PRE_2016 = 1;
     public const ID_FORMAT_2016 = 2;
-    private array $data_components = [];
+    private array $dataComponents = [];
 
-    public function __construct(string $id_number) {
-        $this->parse($id_number);
+    public function __construct(string $idNumber)
+    {
+        $this->parse($idNumber);
     }
 
-    private function parse(string $id_number): void {
-        $id_number = $this->checkLength($id_number);
-        $this->checkBirthDate($id_number);
-        $this->detectFormat($id_number);
+    private function parse(string $idNumber): void
+    {
+        $idNumber = $this->checkLength($idNumber);
+
+        $this->checkBirthDate($idNumber);
+
+        $this->detectFormat($idNumber);
     }
 
-    private function checkLength(string $id_number): string {
-        $id_number = strtoupper($id_number);
-        $strlen = strlen($id_number);
+    private function checkLength(string $idNumber): string
+    {
+        $idNumber = strtoupper($idNumber);
+
+        $strlen = strlen($idNumber);
 
         if ($strlen === 10) {
-            if ($id_number[9] !== 'V') {
+            if ($idNumber[9] !== 'V') {
                 throw new InvalidArgumentException('Ending character is invalid.', 103);
             }
-            $id_number = substr($id_number, 0, 9);
+
+            $idNumber = substr($idNumber, 0, 9);
         }
 
-        if (!ctype_digit($id_number)) {
+        if (!ctype_digit($idNumber)) {
             throw new InvalidArgumentException('Provided number is not all-numeric', 102);
         }
 
-        return (string)$id_number;
+        return $idNumber;
     }
 
-    private function checkBirthDate(string $id_number): void {
-        $full_number = strlen($id_number) === 9
-            ? '19'.$id_number
-            : $id_number;
+    private function checkBirthDate(string $idNumber): void
+    {
+        $fullNumber = strlen($idNumber) === 9
+            ? '19' . $idNumber
+            : $idNumber;
 
-        $year = (int)substr($full_number, 0, 4);
-        $this->data_components['year'] = $year;
+        $year = (int) substr($fullNumber, 0, 4);
+
+        $this->dataComponents['year'] = $year;
 
         $this->checkBirthYear($year);
-        $this->buildBirthDateObject($full_number, $year);
-        $this->data_components['serial'] = (string)substr($full_number, 7);
+
+        $this->buildBirthDateObject($fullNumber, $year);
+
+        $this->dataComponents['serial'] = substr($fullNumber, 7);
     }
 
-    private function checkBirthYear(int $year): void {
+    private function checkBirthYear(int $year): void
+    {
         if ($year < 1900 || $year > 2100) {
             throw new InvalidArgumentException('Birth year is out ff 1900-2100 range', 200);
         }
     }
 
-    private function buildBirthDateObject(string $full_number, int $year): void {
+    private function buildBirthDateObject(string $fullNumber, int $year): void
+    {
         $birthday = new DateTime();
+
         $birthday->setDate($year, 1, 1)->setTime(0, 0);
-        $birth_days_since = (int)substr($full_number, 4, 3);
 
-        if ($birth_days_since > 500) {
-            $birth_days_since -= 500;
-            $this->data_components['gender'] = 'F';
+        $birthDaysSince = (int) substr($fullNumber, 4, 3);
+
+        if ($birthDaysSince >= 500) {
+            $birthDaysSince -= 500;
+            $this->dataComponents['gender'] = 'F';
         } else {
-            $this->data_components['gender'] = 'M';
+            $this->dataComponents['gender'] = 'M';
         }
 
-        --$birth_days_since;
-        if (date('L', mktime(0, 0, 0, 1, 1, $year)) !== '1') {
-            --$birth_days_since;
+        --$birthDaysSince;
+
+        if ($birthDaysSince > (31 + 28) && date('L', mktime(0, 0, 0, 1, 1, $year)) !== '1') {
+            --$birthDaysSince;
         }
 
-        $birthday->add(new DateInterval('P'.$birth_days_since.'D'));
-        $this->data_components['date'] = $birthday;
-        if ($birthday->format('Y') !== (string)$year) {
+        $birthday->add(new DateInterval('P' . $birthDaysSince . 'D'));
+
+        $this->dataComponents['date'] = $birthday;
+
+        if ($birthday->format('Y') !== (string) $year) {
             throw new InvalidArgumentException('Birthday indicator is invalid.', 201);
         }
     }
 
-    private function detectFormat(string $id_number): void {
-        $strlen = strlen($id_number);
-        if ($strlen === 12) {
-            $this->data_components['format'] = static::ID_FORMAT_2016;
-        } else {
-            $this->data_components['format'] = static::ID_FORMAT_PRE_2016;
-        }
+    private function detectFormat(string $idNumber): void
+    {
+        $this->dataComponents['format'] = strlen($idNumber) === 12
+            ? static::ID_FORMAT_2016
+            : static::ID_FORMAT_PRE_2016;
     }
 
-    public function getBirthday(): DateTime {
-        return $this->data_components['date'];
+    public function getBirthday(): DateTime
+    {
+        return $this->dataComponents['date'];
     }
 
-    public function getSerialNumber(): string {
-        return (string)$this->data_components['serial'];
+    public function getSerialNumber(): string
+    {
+        return $this->dataComponents['serial'];
     }
 
-    public function getFormat(): int {
-        return $this->data_components['format'];
+    public function getFormat(): int
+    {
+        return $this->dataComponents['format'];
     }
 
-    public function getGender(): string {
-        return $this->data_components['gender'];
+    public function getGender(): string
+    {
+        return $this->dataComponents['gender'];
     }
 }
