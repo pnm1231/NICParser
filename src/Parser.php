@@ -35,7 +35,7 @@ class Parser
         $strlen = strlen($idNumber);
 
         if ($strlen === 10) {
-            if ($idNumber[9] !== 'V') {
+            if (!in_array($idNumber[9], ['V', 'X'])) {
                 throw new InvalidArgumentException('Ending character is invalid.', 103);
             }
 
